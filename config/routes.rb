@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :contacts
   root 'statics#top'
   get :dashboard, to: 'teams#dashboard'
 
