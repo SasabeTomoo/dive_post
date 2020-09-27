@@ -36,6 +36,10 @@
                 <%= agenda.title %>
                 <i class="right fa fa-angle-left"></i>
               </p>
+              <p>
+                <%= link_to 'アジェンダを削除する', agenda_path(agenda.id), method: :delete ,data: { confirm: '本当に削除していいですか？'} %>
+                <i class="right fa fa-angle-left"></i>
+              </p>
             </a>
             <ul class="nav nav-treeview" style="display: block;">
               <% agenda.articles.each do |article| %>
