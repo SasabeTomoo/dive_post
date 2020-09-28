@@ -42,6 +42,12 @@
                       <td><%= image_tag 'default.jpg', size: '40x40' %></td>
                       <td><%= assign.user.email %></td>
                       <td><%= link_to I18n.t('views.button.delete'), team_assign_path(@team, assign), method: :delete, class: 'btn btn-sm btn-danger' %></td>
+                      <!-- <td><%= form_with(model: @team, local: true) do |f| %></td>
+                      <td><%= f.label :owner_id %></td>
+                      <td><%= f.select :owner_id, {'一般': assign.user_id}, { include_blank: '選択してください'}, { class: 'form-control' , required: true } %></td>
+                      <td><%= f.submit %></td>
+                      <% end %> -->
+                      <td><%= link_to '権限移動', team_path(@team, user_id: assign.user_id), method: :patch, class: 'btn btn-sm btn-danger' %></td>
                     </tr>
                   <% end %>
                 </tbody>
