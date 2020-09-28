@@ -30,11 +30,18 @@ class TeamsController < ApplicationController
   end
 
   def update
-    if @team.update(team_params)
-      redirect_to @team, notice: I18n.t('views.messages.update_team')
+    if current_user.id == @team.owner_id
+      @team.owner_id = params[:user_id]
+      if @team.update(team_params)
+        @user = User.find(params[:user_id])
+        AssignMailer.owner_mail(@user.email, @team.name).deliver
+        redirect_to @team, notice: I18n.t('views.messages.update_team')
+      else
+        flash.now[:error] = I18n.t('views.messages.failed_to_save_team')
+        render :edit
+      end
     else
-      flash.now[:error] = I18n.t('views.messages.failed_to_save_team')
-      render :edit
+      redirect_to @team, notice: "管理者じゃありません"
     end
   end
 
@@ -54,6 +61,6 @@ class TeamsController < ApplicationController
   end
 
   def team_params
-    params.fetch(:team, {}).permit %i[name icon icon_cache owner_id keep_team_id]
+    params.fetch(:team, {}).permit %i[name icon icon_cache owner_id keep_team_id user_id]
   end
 end
